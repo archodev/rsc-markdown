@@ -1,46 +1,118 @@
-# Getting Started with Create React App
+# rsc-markdown
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+`npm i rsc-markdown`
 
-## Available Scripts
+Markdown for react server components
 
-In the project directory, you can run:
+---
 
-### `npm start`
+`rsc-markdown`, a powerful markdown rendering library for React Server Components. This library uses `remark` and `rehype` to provide a powerful server component for rendering markdown content. Compatible with react, nextjs, and remix.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Features
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- 🚀 **Server-Side Rendering**: Built as a React Server Component, ensuring lightning-fast performance by rendering markdown content directly on the server.
+- 🔒 **Safe Rendering**: Does not use `dangerouslySetInnerHTML`, ensuring a secure rendering process.
+- 📝 **Remark and Rehype Powered**: Utilizes the powerful and flexible parsing and transformation capabilities of remark and rehype.
+- 🎨 **Custom Components**: Allows for the substitution of standard markdown elements with custom React components.
+- 🔧 **Configurable Options**: Supports options like trimming white space, GitHub Flavored Markdown (GFM), and syntax highlighting for code blocks.
+- 🌈 **Syntax Highlighting**: Integrated with rehype-prism-plus for beautiful syntax highlighting in code blocks.
 
-### `npm test`
+## Installation
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+To use **rsc-markdown** in your project, you can install it via npm or yarn:
 
-### `npm run build`
+```bash
+npm install rsc-markdown
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+```bash
+yarn add rsc-markdown
+```
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Usage
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+`rsc-markdown` is designed for Next.js, Remix, and React 19.
 
-### `npm run eject`
+Server Component:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```tsx
+'use server';
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+import Markdown from 'rsc-markdown';
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+const markdownContent = ` # Welcome to rsc-markdown This is a **powerful** library for rendering markdown in React Server Components. `;
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+function MyComponent() {
+  return <Markdown markdown={markdownContent} />;
+}
+```
 
-## Learn More
+Client Component:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```tsx
+'use client';
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+import Markdown from 'rsc-markdown';
+
+const markdownContent = ` # Welcome to rsc-markdown This is a **powerful** library for rendering markdown in React Server Components. `;
+
+function MyComponent() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <Markdown markdown={markdownContent} />
+    </Suspense>
+  );
+}
+```
+
+With Api:
+
+```tsx
+'use server';
+
+import Markdown from 'rsc-markdown';
+
+const prisma = new PrismaClient();
+
+export default async function MyComponent() {
+  const markdown = await fetch('/api/markdown').then((res) => res.text());
+
+  return <Markdown markdown={markdown} />;
+}
+```
+
+### Props
+
+- `markdown`: The markdown content to be rendered. (Required)
+- `options`: Configuration options (Optional):
+  - `trimWhiteSpace`: Trims leading white space from each line in the markdown content.
+  - `gfm`: Enables GitHub Flavored Markdown.
+  - `syntaxHighlighting`: Enables syntax highlighting for code blocks.
+  - `components`: An optional object to override default HTML elements with custom React components.
+
+## Custom Components
+
+You can replace standard markdown elements with your custom components. For example, to use a custom component for rendering links:
+
+```tsx
+import Markdown from 'rsc-markdown';
+const components = {
+  a: ({ href, children }) => (
+    <a href={href} style={{ color: 'red' }}>
+      {children}
+    </a>
+  ),
+};
+const markdownContent = `[Custom Link](https://example.com)`;
+function MyComponent() {
+  return <Markdown markdown={markdownContent} components={components} />;
+}
+```
+
+## Note
+
+Remember, **rsc-markdown** is a server component and cannot use any hooks or functions that start with the word `use` or have event handlers. It's designed to render static markdown content efficiently on the server side, enhancing the performance and SEO of your React applications.
+
+## Contributing
+
+We welcome contributions to **rsc-markdown**! Whether it's adding new features, improving documentation, or reporting bugs, please feel free to open an issue or submit a pull request. Thank you for considering **rsc-markdown** for your markdown rendering needs in React Server Components.

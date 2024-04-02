@@ -13,10 +13,12 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    "noEmit": false,
     "jsx": "react-jsx",
     "jsxImportSource": "react",
-    "types": ["react/canary", "react-dom/canary"]
+    "types": ["react/canary", "react-dom/canary"],
+    "outDir": "./lib",
+    "declaration": true
   },
   "include": ["src"]
 }
