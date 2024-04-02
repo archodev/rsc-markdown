@@ -96,6 +96,7 @@ You can replace standard markdown elements with your custom components. For exam
 
 ```jsx
 import Markdown from 'rsc-markdown';
+
 const components = {
   a: ({ href, children }) => (
     <a href={href} style={{ color: 'red' }}>
@@ -103,7 +104,9 @@ const components = {
     </a>
   ),
 };
+
 const markdownContent = `[Custom Link](https://example.com)`;
+
 function MyComponent() {
   return <Markdown markdown={markdownContent} components={components} />;
 }
