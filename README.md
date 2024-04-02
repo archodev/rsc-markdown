@@ -17,6 +17,10 @@ Markdown for react server components
 - 🔧 **Configurable Options**: Supports options like trimming white space, GitHub Flavored Markdown (GFM), and syntax highlighting for code blocks.
 - 🌈 **Syntax Highlighting**: Integrated with rehype-prism-plus for beautiful syntax highlighting in code blocks.
 
+### Note:
+
+We recommend using `rsc-markdown` with ssg (static site generation) in a framework like nextjs for the best performance and seo, but ssr and csr are also supported.
+
 ## Installation
 
 To use **rsc-markdown** in your project, you can install it via npm or yarn:
