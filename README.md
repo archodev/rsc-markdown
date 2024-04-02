@@ -11,7 +11,7 @@ Markdown for react server components
 ## Features
 
 - 🚀 **Server-Side Rendering**: Built as a React Server Component, ensuring lightning-fast performance by rendering markdown content directly on the server.
-- 🔒 **Safe Rendering**: Does not use `dangerouslySetInnerHTML`, ensuring a secure rendering process.
+- 🔒 **Safe Rendering**: Converts markdown to jsx without converting using dangerouslySetInnerHtml, thanks to `rehype-react`.
 - 📝 **Remark and Rehype Powered**: Utilizes the powerful and flexible parsing and transformation capabilities of remark and rehype.
 - 🎨 **Custom Components**: Allows for the substitution of standard markdown elements with custom React components.
 - 🔧 **Configurable Options**: Supports options like trimming white space, GitHub Flavored Markdown (GFM), and syntax highlighting for code blocks.
@@ -35,7 +35,7 @@ yarn add rsc-markdown
 
 Server Component:
 
-```tsx
+```jsx
 'use server';
 
 import Markdown from 'rsc-markdown';
@@ -49,7 +49,7 @@ function MyComponent() {
 
 Client Component:
 
-```tsx
+```jsx
 'use client';
 
 import Markdown from 'rsc-markdown';
@@ -67,7 +67,7 @@ function MyComponent() {
 
 With Api:
 
-```tsx
+```jsx
 'use server';
 
 import Markdown from 'rsc-markdown';
@@ -94,7 +94,7 @@ export default async function MyComponent() {
 
 You can replace standard markdown elements with your custom components. For example, to use a custom component for rendering links:
 
-```tsx
+```jsx
 import Markdown from 'rsc-markdown';
 const components = {
   a: ({ href, children }) => (
@@ -111,7 +111,7 @@ function MyComponent() {
 
 ## Note
 
-Remember, **rsc-markdown** is a server component and cannot use any hooks or functions that start with the word `use` or have event handlers. It's designed to render static markdown content efficiently on the server side, enhancing the performance and SEO of your React applications.
+`rsc-markdown` is a server component, so to use it inside of a client component you mst wrap in suspense.
 
 ## Contributing
 
