@@ -111,7 +111,7 @@ function MyComponent() {
 
 ## Note
 
-`rsc-markdown` is a server component, so to use it inside of a client component you mst wrap in suspense.
+`rsc-markdown` is a server component, so to use it inside of a client component you must wrap in suspense.
 
 ## Contributing
 
