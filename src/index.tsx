@@ -7,10 +7,8 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <Suspense fallback={<div>Loading...</div>}>
-      {/* @ts-ignore */}
-      <Markdown
-        markdown={`
+    <Markdown
+      markdown={`
 # Heading 1
 ## Heading 2
 ### Heading 3
@@ -56,8 +54,6 @@ Tables:
 | Row 1, Cell 1 | Row 1, Cell 2 | Row 1, Cell 3 |
 | Row 2, Cell 1 | Row 2, Cell 2 | Row 2, Cell 3 |
 `}
-        options={{ gfm: true, trimWhiteSpace: false }}
-      />
-    </Suspense>
+    />
   </React.StrictMode>
 );

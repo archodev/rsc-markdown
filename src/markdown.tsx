@@ -1,75 +1,112 @@
 'use server';
 
-import React from 'react';
-import * as prod from 'react/jsx-runtime';
-import rehypeStringify from 'rehype-stringify';
-import remarkParse from 'remark-parse';
-import remarkRehype from 'remark-rehype';
-import rehypeReact, { Components } from 'rehype-react';
-import { unified } from 'unified';
-import rehypeParse from 'rehype-parse';
-import remarkGfm from 'remark-gfm';
-import rehypePrism from 'rehype-prism-plus/all';
-import { rehype } from 'rehype';
+import showdown, { ShowdownOptions } from 'showdown';
+import parse, { HTMLReactParserOptions } from 'html-react-parser';
 
-import './markdown.css';
-
-const production = { Fragment: prod.Fragment, jsx: prod.jsx, jsxs: prod.jsxs };
-
-/**
- * Props for the Markdown component.
- * @typedef {Object} Props
- * @property {string} markdown - The markdown content to be rendered.
- * @property {Object} [options] - Optional configuration for markdown rendering.
- * @property {boolean} [options.trimWhiteSpace=false] - Whether to trim leading and trailing white space from the markdown content.
- * @property {boolean} [options.gfm=true] - Whether to enable GitHub Flavored Markdown.
- * @property {boolean} [options.syntaxHighlighting=false] - Whether to enable syntax highlighting.
- * @property {Partial<Components>} [components] - Custom React components to use for rendering specific markdown elements.
- */
-
-interface Props {
+interface Props extends React.HTMLProps<HTMLDivElement> {
+  /**
+   * The markdown content to render.
+   *
+   * @example
+   *
+   * Here's an example of how you can use the `markdown` prop:
+   *
+   * ```jsx
+   * <Markdown markdown="# Hello, World!" />
+   * ```
+   *
+   * @since 1.0.0
+   */
   markdown: string;
-  options?: {
-    trimWhiteSpace?: boolean;
-    gfm?: boolean;
-    syntaxHighlighting?: boolean;
-  };
-  components?: Partial<Components>;
+
+  /**
+   * Custom components to replace the default html components..
+   *
+   * @example
+   *
+   * An example of how you can use the `components` prop:
+   *
+   * ```jsx
+   * import Markdown from 'rsc-markdown'
+   *
+   * const components = {
+   *   h1: ({ children }) => <h1 style={{ color: 'blue' }}>{children}</h1>,
+   * };
+   *
+   * const MyComponent = () => {
+   *   return <Markdown markdown="# Custom Heading" components={components} />
+   * }
+   * ```
+   *
+   * @since 1.0.0
+   */
+  components?: { [tagName: string]: React.ElementType };
+
+  /**
+   * Options to pass to `showdown`. Refer to [showdown](https://github.com/showdownjs/showdown?tab=readme-ov-file#valid-options) for more information.
+   *
+   * @since 1.1.0
+   */
+  markdownOptions?: ShowdownOptions;
+
+  /**
+   * Options to pass to `html-react-parser`. Refer to [html-react-parser](https://github.com/remarkablemark/html-react-parser?tab=readme-ov-file#options) for more information.
+   *
+   * Note:
+   * The `replace` option is supported, but it is recommended to use the `components` prop instead.
+   *
+   * @since 1.1.0
+   */
+  parseOptions?: Omit<HTMLReactParserOptions, 'replace'>;
 }
 
-// @ts-ignore
-const Markdown: React.FC<Props> = async ({
+const Markdown: React.FC<Props> = ({
   markdown,
-  options,
   components,
-}): Promise<React.ReactNode> => {
-  const md = options?.trimWhiteSpace
-    ? String(markdown).trim().replace(/^\s+/gm, '')
-    : String(markdown);
+  markdownOptions,
+  parseOptions,
+  className,
+  ...props
+}) => {
+  const converter = new showdown.Converter(markdownOptions);
+  const html = converter.makeHtml(markdown);
 
-  const html = options?.gfm
-    ? await unified()
-        .use(remarkParse)
-        .use(remarkGfm)
-        .use(remarkRehype)
-        .use(rehypeStringify)
-        .process(md)
-    : await unified()
-        .use(remarkParse)
-        .use(remarkRehype)
-        .use(rehypeStringify)
-        .process(md);
+  const customParseOptions: HTMLReactParserOptions = {
+    replace: (domNode) => {
+      if (domNode instanceof HTMLElement) {
+        if (domNode.attributes && components) {
+          const CustomComponent = components[domNode.tagName.toLowerCase()];
+          if (CustomComponent) {
+            const attributes = Array.from(domNode.attributes).reduce<
+              Record<string, string>
+            >((acc, attr) => {
+              acc[attr.name] = attr.value;
+              return acc;
+            }, {});
+            return (
+              <CustomComponent {...attributes}>
+                {Array.from(domNode.childNodes).map((child) =>
+                  child.nodeType === Node.ELEMENT_NODE
+                    ? parse(
+                        (child as HTMLElement).outerHTML,
+                        customParseOptions
+                      )
+                    : child.textContent
+                )}
+              </CustomComponent>
+            );
+          }
+        }
+      }
+    },
+    ...parseOptions,
+  };
 
-  const hl = options?.syntaxHighlighting
-    ? await rehype().use(rehypePrism).process(String(html))
-    : html;
-
-  const file = await unified()
-    .use(rehypeParse, { fragment: true })
-    // @ts-ignore
-    .use(rehypeReact, { ...production, components })
-    .process(String(hl));
-  return file.result as unknown as React.ReactNode;
+  return (
+    <div className={`rsc-markdown ${className}`} {...props}>
+      {parse(html, customParseOptions)}
+    </div>
+  );
 };
 
 export default Markdown;

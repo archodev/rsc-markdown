@@ -6,11 +6,11 @@ Markdown for server components
 
 ---
 
-`rsc-markdown`, a powerful markdown rendering library for React Server Components, using `remark` and `rehype`. we provide a powerful server component for rendering markdown content. Compatible with react, nextjs, and remix.
+`rsc-markdown`, a powerful markdown rendering library that supports React Server Components, powered by [`showdown`](https://github.com/showdownjs/showdown) and [`html-react-parser`](https://github.com/remarkablemark/html-react-parser). We provide a powerful server component for rendering markdown content. Compatible with react, nextjs, and remix.
 
 ## Features
 
-- 🚀 **Server-Side Rendering**: Built as a React Server Component, ensuring lightning-fast performance by rendering markdown content directly on the server.
+- 🚀 **Server-Side Rendering**: Built for React Server Components, ensuring lightning-fast performance by rendering markdown content directly on the server.
 - 🔒 **Safe Rendering**: Converts markdown to jsx without converting using dangerouslySetInnerHtml, thanks to `rehype-react`.
 - 📝 **Remark and Rehype Powered**: Utilizes the powerful and flexible parsing and transformation capabilities of remark and rehype.
 - 🎨 **Custom Components**: Allows for the substitution of standard markdown elements with custom React components.
@@ -35,9 +35,33 @@ npm i rsc-markdown
 yarn add rsc-markdown
 ```
 
+### Props
+
+- `markdown`: (`string`) The markdown content to be rendered. (Required)
+- `components`: (`Object`) of custom components to replace standard markdown elements. The key is the default component name and the value is the custom component. (Optional)
+  \
+   **Example**:
+
+  ```jsx
+  const markdown = `
+  # Hello World
+  This is a paragraph
+  `
+  <Markdown
+    markdown={markdown}
+    components={{
+      a: MyCustomComponent,
+      p: (props) => <p {...props} className="custom-p-class" />
+    }}
+  />
+  ```
+
+- `markdownOptions`: (`Object`) Configuration options for the markdown content. Refer to [showdown](https://github.com/showdownjs/showdown?tab=readme-ov-file#valid-options) for more information. (Optional)
+- `parseOptions`: (`Object`) Configuration options for the parsed markdown content. Refer to [html-react-parser](https://github.com/remarkjs/react-markdown?tab=readme-ov-file#options) for more information. (Optional)
+
 ## Usage
 
-`rsc-markdown` is designed for Next.js, Remix, and React 19.
+`rsc-markdown` is designed for Next.js, Remix, and React.
 
 **Server Component**:
 
@@ -63,11 +87,7 @@ import Markdown from 'rsc-markdown';
 const markdownContent = ` # Welcome to rsc-markdown This is a **powerful** library for rendering markdown in React Server Components. `;
 
 function MyComponent() {
-  return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <Markdown markdown={markdownContent} />
-    </Suspense>
-  );
+  return <Markdown markdown={markdownContent} />;
 }
 ```
 
@@ -85,18 +105,7 @@ export default async function MyComponent() {
 }
 ```
 
-### Props
-
-- `markdown`: The markdown content to be rendered. (Required)
-- `options`: Configuration options (Optional):
-  - `trimWhiteSpace`: Trims leading white space from each line in the markdown content.
-  - `gfm`: Enables GitHub Flavored Markdown.
-  - `syntaxHighlighting`: Enables syntax highlighting for code blocks.
-  - `components`: An optional object to override default HTML elements with custom React components.
-
-## Custom Components
-
-You can replace standard markdown elements with your custom components. For example, to use a custom component for rendering links:
+**With Custom Components**:
 
 ```jsx
 import Markdown from 'rsc-markdown';
@@ -116,10 +125,6 @@ function MyComponent() {
 }
 ```
 
-## Note
-
-`rsc-markdown` is a server component, so to use it inside of a client component you must wrap in suspense.
-
 ## Contributing
 
-We welcome contributions to **rsc-markdown**! Whether it's adding new features, improving documentation, or reporting bugs, please feel free to open an issue or submit a pull request. Thank you for considering **rsc-markdown** for your markdown rendering needs in React Server Components.
+We welcome contributions to **rsc-markdown**! If you find any bugs, please report them. If you would like any new features, we would love your feedback.
