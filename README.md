@@ -1,8 +1,6 @@
 # rsc-markdown
 
-`npm i rsc-markdown`
-
-Markdown for react server components
+![rsc-markdown: markdown for react server components](./rsc-markdown.png)
 
 ---
 
