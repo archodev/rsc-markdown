@@ -8,10 +8,15 @@ Markdown for server components
 
 `rsc-markdown`, a powerful markdown rendering library that supports React Server Components, powered by [`showdown`](https://github.com/showdownjs/showdown) and [`html-react-parser`](https://github.com/remarkablemark/html-react-parser). We provide a powerful server component for rendering markdown content. Compatible with react, nextjs, and remix.
 
+[Next.JS Codesandbox Demo](https://codesandbox.io/p/devbox/rsc-markdown-next-jtc7zp)
+
+**Note**:
+If you are using `rsc-markdown` with [tailwindcss](https://tailwindcss.com), it is recommended to also use [@tailwindcss/plugin-typography](https://github.com/tailwindlabs/tailwindcss-typography) because by default tailwind strips all styles off of native html elements, making the markdown content look very plain and like it is just pure text.
+
 ## Features
 
 - 🚀 **Server-Side Rendering**: Built for React Server Components, ensuring lightning-fast performance by rendering markdown content directly on the server.
-- 🔒 **Safe Rendering**: Converts markdown to jsx without converting using dangerouslySetInnerHtml, thanks to `rehype-react`.
+- 🔒 **Safe Rendering**: Converts markdown to jsx without converting using dangerouslySetInnerHtml & sanitizes html with `dompurify`.
 - 📝 **Remark and Rehype Powered**: Utilizes the powerful and flexible parsing and transformation capabilities of remark and rehype.
 - 🎨 **Custom Components**: Allows for the substitution of standard markdown elements with custom React components.
 - 🔧 **Configurable Options**: Supports options like trimming white space, GitHub Flavored Markdown (GFM), and syntax highlighting for code blocks.
@@ -57,7 +62,7 @@ yarn add rsc-markdown
   ```
 
 - `markdownOptions`: (`Object`) Configuration options for the markdown content. Refer to [showdown](https://github.com/showdownjs/showdown?tab=readme-ov-file#valid-options) for more information. (Optional)
-- `parseOptions`: (`Object`) Configuration options for the parsed markdown content. Refer to [html-react-parser](https://github.com/remarkjs/react-markdown?tab=readme-ov-file#options) for more information. (Optional)
+- `parseOptions`: (`Object`) Configuration options for the parsed markdown content. Refer to [html-react-parser](https://github.com/remarkablemark/html-react-parser?tab=readme-ov-file#usage) for more information. (Optional)
 
 ## Usage
 

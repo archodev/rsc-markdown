@@ -1,6 +1,27 @@
 {
   "name": "rsc-markdown",
-  "version": "1.1.0",
+  "version": "1.2.4",
+  "keywords": [
+    "markdown",
+    "server",
+    "server components",
+    "react server components",
+    "rsc",
+    "react",
+    "component",
+    "components",
+    "markdown to react",
+    "markdown to html",
+    "html to react",
+    "html to markdown",
+    "nextjs",
+    "next.js",
+    "next",
+    "remix",
+    "react-markdown",
+    "server components markdown",
+    "server component markdown"
+  ],
   "private": false,
   "repository": {
     "type": "git",
@@ -8,6 +29,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "dompurify": "^3.0.11",
     "html-react-parser": "^5.1.10",
     "showdown": "^2.1.0"
   },
@@ -15,7 +37,8 @@
     "start": "react-scripts start",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build": "tsc"
+    "build": "rollup -c",
+    "pub": "npm run build && npm publish"
   },
   "eslintConfig": {
     "extends": [
@@ -35,17 +58,23 @@
       "last 1 safari version"
     ]
   },
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "dist/bundle.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/dompurify": "^3.0.5",
     "@types/node": "^20.12.3",
     "@types/react": "^18.2.74",
     "@types/react-dom": "^18.2.23",
     "@types/showdown": "^2.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-scripts": "^5.0.1",
+    "rollup": "^2.79.1",
+    "rollup-plugin-typescript2": "^0.36.0",
     "typescript": "^4.9.5"
   },
   "peerDependencies": {
