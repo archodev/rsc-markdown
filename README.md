@@ -1,10 +1,12 @@
 # rsc-markdown
 
+Markdown for server components
+
 ![rsc-markdown: markdown for react server components](./rsc-markdown.png)
 
 ---
 
-`rsc-markdown`, a powerful markdown rendering library for React Server Components. This library uses `remark` and `rehype` to provide a powerful server component for rendering markdown content. Compatible with react, nextjs, and remix.
+`rsc-markdown`, a powerful markdown rendering library for React Server Components, using `remark` and `rehype`. we provide a powerful server component for rendering markdown content. Compatible with react, nextjs, and remix.
 
 ## Features
 
@@ -14,18 +16,20 @@
 - 🎨 **Custom Components**: Allows for the substitution of standard markdown elements with custom React components.
 - 🔧 **Configurable Options**: Supports options like trimming white space, GitHub Flavored Markdown (GFM), and syntax highlighting for code blocks.
 - 🌈 **Syntax Highlighting**: Integrated with rehype-prism-plus for beautiful syntax highlighting in code blocks.
-
-### Note:
-
-We recommend using `rsc-markdown` with ssg (static site generation) in a framework like nextjs for the best performance and seo, but ssr (server side rendering) and csr (client side rendering) are also supported.
+- 📈 **Rendering Support**: `rsc-markdown` is optimized for use with SSG (Static Site Generation), SSR (Server Side Rendering), and CSR (Client Side Rendering).
 
 ## Installation
 
 To use **rsc-markdown** in your project, you can install it via npm or yarn:
 
+**npm**:
+
 ```bash
-npm install rsc-markdown
+npm i rsc-markdown
 ```
+
+\
+**yarn**:
 
 ```bash
 yarn add rsc-markdown
@@ -35,7 +39,7 @@ yarn add rsc-markdown
 
 `rsc-markdown` is designed for Next.js, Remix, and React 19.
 
-Server Component:
+**Server Component**:
 
 ```jsx
 'use server';
@@ -49,7 +53,7 @@ function MyComponent() {
 }
 ```
 
-Client Component:
+**Client Component**:
 
 ```jsx
 'use client';
@@ -67,14 +71,12 @@ function MyComponent() {
 }
 ```
 
-With Api:
+**With Api**:
 
 ```jsx
 'use server';
 
 import Markdown from 'rsc-markdown';
-
-const prisma = new PrismaClient();
 
 export default async function MyComponent() {
   const markdown = await fetch('/api/markdown').then((res) => res.text());
