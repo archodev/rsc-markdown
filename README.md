@@ -19,7 +19,7 @@ Markdown for react server components
 
 ### Note:
 
-We recommend using `rsc-markdown` with ssg (static site generation) in a framework like nextjs for the best performance and seo, but ssr and csr are also supported.
+We recommend using `rsc-markdown` with ssg (static site generation) in a framework like nextjs for the best performance and seo, but ssr (server side rendering) and csr (client side rendering) are also supported.
 
 ## Installation
 

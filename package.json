@@ -1,7 +1,11 @@
 {
   "name": "rsc-markdown",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": false,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/archodev/rsc-markdown.git"
+  },
   "dependencies": {
     "@types/node": "^16.18.93",
     "@types/react": "^18.2.74",
