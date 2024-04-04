@@ -16,7 +16,7 @@ If you are using `rsc-markdown` with [tailwindcss](https://tailwindcss.com), it 
 ## Features
 
 - 🚀 **Server-Side Rendering**: Built for React Server Components, ensuring lightning-fast performance by rendering markdown content directly on the server.
-- 🔒 **Safe Rendering**: Converts markdown to jsx without converting using dangerouslySetInnerHtml & sanitizes html with `dompurify`.
+- 🔒 **Safe Rendering**: Converts markdown to jsx without converting using dangerouslySetInnerHtml & sanitizes html with [`xss`](https://github.com/leizongmin/js-xss).
 - 📝 **Remark and Rehype Powered**: Utilizes the powerful and flexible parsing and transformation capabilities of remark and rehype.
 - 🎨 **Custom Components**: Allows for the substitution of standard markdown elements with custom React components.
 - 🔧 **Configurable Options**: Supports options like trimming white space, GitHub Flavored Markdown (GFM), and syntax highlighting for code blocks.

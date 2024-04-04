@@ -51,6 +51,30 @@ interface ShowdownOptions {
     splitAdjacentBlockquotes?: boolean;
     moreStyling?: boolean;
 }
+interface XSSOptions {
+    whiteList?: Record<string, string[]>;
+    allowList?: Record<string, string[]>;
+    onTag?: (tag: string, html: string, options: {
+        isWhite?: boolean;
+        isClosing?: boolean;
+        position?: number;
+        sourcePosition?: number;
+    }) => string | void;
+    onTagAttr?: (tag: string, name: string, value: string, isWhiteAttr: boolean) => string | void;
+    onIgnoreTag?: (tag: string, html: string, options: {
+        isWhite?: boolean;
+        isClosing?: boolean;
+        position?: number;
+        sourcePosition?: number;
+    }) => string | void;
+    onIgnoreTagAttr?: (tag: string, name: string, value: string, isWhiteAttr: boolean) => string | void;
+    escapeHtml?: (html: string) => string;
+    safeAttrValue?: (tag: string, name: string, value: string) => string;
+    singleQuotedAttributeValue?: boolean;
+    css?: {
+        whiteList?: Record<string, RegExp | boolean>;
+    } | false;
+}
 interface Props extends React.HTMLProps<HTMLDivElement> {
     /**
      * The markdown content to render.
@@ -119,7 +143,16 @@ interface Props extends React.HTMLProps<HTMLDivElement> {
      *
      * @since 1.1.0
      */
-    parseOptions?: Omit<HTMLReactParserOptions, 'replace'>;
+    parseOptions?: HTMLReactParserOptions;
+    /**
+     * Options to pass to `html-react-parser`. Refer to [html-react-parser](https://github.com/remarkablemark/html-react-parser?tab=readme-ov-file#options) for more information.
+     *
+     * Note:
+     * The `replace` option is supported, but it is recommended to use the `components` prop instead.
+     *
+     * @since 1.2.6
+     */
+    xssOptions?: XSSOptions;
 }
 declare const Markdown: React.FC<Props>;
 export default Markdown;
