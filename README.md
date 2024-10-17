@@ -1,3 +1,6 @@
+> [!CAUTION]
+> This library is now depreceated. Please use [`react-markdown`](https://github.com/remarkjs/react-markdown).
+
 # rsc-markdown
 
 Markdown for server components
